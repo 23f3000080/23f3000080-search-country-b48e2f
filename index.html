@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Country Search</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        input { padding: 10px; width: 200px; }
+        button { padding: 10px; }
+        ul { list-style-type: none; padding: 0; }
+        li { margin: 5px 0; }
+    </style>
+</head>
+<body>
+    <h1>Country Search</h1>
+    <input type="text" id="searchInput" placeholder="Search for a country...">
+    <button id="searchButton">Search</button>
+    <ul id="countryList"></ul>
+
+    <script>
+        const countries = ["United States", "Canada", "Mexico", "United Kingdom", "Germany", "France", "Italy", "Spain", "Australia", "Japan", "China", "India", "Brazil", "South Africa"];
+        const countryList = document.getElementById('countryList');
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
+
+        function displayCountries(countriesToDisplay) {
+            countryList.innerHTML = '';
+            countriesToDisplay.forEach(country => {
+                const li = document.createElement('li');
+                li.textContent = country;
+                countryList.appendChild(li);
+            });
+        }
+
+        function searchCountries() {
+            const query = searchInput.value.toLowerCase();
+            const filteredCountries = countries.filter(country => country.toLowerCase().includes(query));
+            displayCountries(filteredCountries);
+        }
+
+        searchButton.addEventListener('click', searchCountries);
+        searchInput.addEventListener('keyup', (event) => {
+            if (event.key === 'Enter') {
+                searchCountries();
+            }
+        });
+
+        // Check for URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const countryParam = urlParams.get('country');
+        if (countryParam) {
+            searchInput.value = countryParam;
+            searchCountries();
+        } else {
+            displayCountries(countries);
+        }
+    </script>
+</body>
+</html>
